@@ -335,7 +335,8 @@ body::before{
       <img src="https://ethanytangcodes.github.io/cosmos/logo.png" alt="Cosmos">
     </div>
     <h1>Cosmos</h1>
-  </div><img alt="views" src="https://hits.sh/ethanytangcodes.github.io/cosmos.svg?label=views&color=5011cc&labelColor=3db9d7"/>
+  </div>
+  <a href="https://hits.sh/ethanytangcodes.github.io/cosmos/"><img alt="Hits" src="https://hits.sh/ethanytangcodes.github.io/cosmos.svg?label=views&color=5011cc&labelColor=3db9d7"/></a>
   
   <div class="buttons">
     <a href="https://ethanytangcodes.github.io/art" class="icon-btn">
@@ -393,11 +394,15 @@ const webhookWorker = "https://apply.ethantytang11.workers.dev/";
 const cooldownKey = "feedbackCooldown";
 const cooldownMs = 24 * 60 * 60 * 1000;
 
-// Auto-open on page load
-setTimeout(() => {
-  chatWidget.classList.add('open');
-  chatBtn.classList.add('active');
-}, 500);
+// Auto-open only on first visit
+const hasVisited = localStorage.getItem('hasVisitedCosmos');
+if (!hasVisited) {
+  setTimeout(() => {
+    chatWidget.classList.add('open');
+    chatBtn.classList.add('active');
+  }, 500);
+  localStorage.setItem('hasVisitedCosmos', 'true');
+}
 
 // Toggle chat widget
 chatBtn.addEventListener('click', () => {
