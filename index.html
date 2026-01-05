@@ -6,6 +6,7 @@
 <title>Cosmos</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -18,7 +19,6 @@ body{
   color:white;
 }
 
-/* Cosmic glow */
 body::before{
   content:"";
   position:fixed;
@@ -43,14 +43,12 @@ body::before{
   z-index:1;
 }
 
-/* Brand */
 .brand{
   display:flex;
   align-items:center;
   gap:26px;
 }
 
-/* Gradient-only logo background */
 .logo-wrap{
   background:linear-gradient(135deg,#9d4edd,#4cc9f0);
   padding:18px;
@@ -75,7 +73,6 @@ body::before{
   -webkit-text-fill-color:transparent;
 }
 
-/* Navigation buttons */
 .buttons{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -112,7 +109,6 @@ body::before{
   box-shadow:0 0 40px rgba(76,201,240,.6);
 }
 
-/* Download section */
 .download-section{
   margin-top:6px;
   display:flex;
@@ -150,22 +146,197 @@ body::before{
   border-radius:999px;
   background:rgba(255,255,255,.25);
 }
+
+/* Chat Button */
+.chat-button{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:white;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .3s ease;
+  z-index:1000;
+}
+
+.chat-button i{
+  font-size:24px;
+  color:#0a0e27;
+  transition:all .3s ease;
+}
+
+.chat-button.active{
+  background:linear-gradient(135deg,#9d4edd,#4cc9f0);
+}
+
+.chat-button.active i{
+  color:white;
+}
+
+.chat-button:hover{
+  transform:scale(1.1);
+  box-shadow:0 6px 30px rgba(157,78,221,.5);
+}
+
+/* Chat Widget */
+.chat-widget{
+  position:fixed;
+  bottom:100px;
+  right:30px;
+  width:400px;
+  max-width:calc(100vw - 60px);
+  background:rgba(26,21,53,.95);
+  backdrop-filter:blur(20px);
+  border-radius:20px;
+  border:2px solid rgba(157,78,221,.4);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,.4),
+    0 0 40px rgba(157,78,221,.2);
+  z-index:999;
+  display:none;
+  animation:slideUp .3s ease;
+}
+
+.chat-widget.open{
+  display:block;
+}
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.chat-header{
+  padding:20px;
+  border-bottom:1px solid rgba(157,78,221,.3);
+}
+
+.chat-header h3{
+  font-size:20px;
+  background:linear-gradient(90deg,#9d4edd,#4cc9f0);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:5px;
+}
+
+.chat-header p{
+  font-size:13px;
+  color:#b8b8c8;
+  line-height:1.4;
+}
+
+.chat-body{
+  padding:20px;
+}
+
+.chat-body input,
+.chat-body textarea{
+  width:100%;
+  margin:10px 0;
+  padding:12px;
+  border-radius:10px;
+  border:2px solid rgba(157,78,221,.3);
+  background:rgba(10,14,39,.6);
+  color:white;
+  font-family:inherit;
+  transition:all .3s ease;
+}
+
+.chat-body input::placeholder,
+.chat-body textarea::placeholder{
+  color:rgba(232,232,240,.5);
+}
+
+.chat-body input:focus,
+.chat-body textarea:focus{
+  outline:none;
+  border-color:#9d4edd;
+  background:rgba(10,14,39,.8);
+  box-shadow:0 0 20px rgba(157,78,221,.4);
+}
+
+.chat-body textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.chat-body button{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(135deg,#9d4edd,#4cc9f0);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .3s ease;
+  margin-top:10px;
+}
+
+.chat-body button:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:
+    0 10px 30px rgba(157,78,221,.5),
+    0 0 40px rgba(76,201,240,.3);
+}
+
+.chat-body button:disabled{
+  background:rgba(58,58,58,.6);
+  cursor:not-allowed;
+  color:#888;
+}
+
+#chatStatus{
+  text-align:center;
+  font-size:14px;
+  margin-top:10px;
+  color:#9d4edd;
+}
+
+@media (max-width:768px){
+  .brand h1{
+    font-size:50px;
+  }
+  .logo-wrap img{
+    width:70px;
+    height:70px;
+  }
+  .chat-widget{
+    width:calc(100vw - 40px);
+    right:20px;
+    bottom:90px;
+  }
+  .chat-button{
+    right:20px;
+    bottom:20px;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-  <!-- Brand -->
   <div class="brand">
     <div class="logo-wrap">
       <img src="https://ethanytangcodes.github.io/cosmos/logo.png" alt="Cosmos">
     </div>
     <h1>Cosmos</h1>
-  </div>
-  <a href="https://hits.sh/ethanytangcodes.github.io/cosmos/"><img alt="Hits" src="https://hits.sh/ethanytangcodes.github.io/cosmos.svg?label=views&color=5011cc&labelColor=3db9d7"/></a>
-  <!-- Navigation -->
+  </div><img alt="views" src="https://hits.sh/ethanytangcodes.github.io/cosmos.svg?label=views&color=5011cc&labelColor=3db9d7"/>
+  
   <div class="buttons">
     <a href="https://ethanytangcodes.github.io/art" class="icon-btn">
       <i class="fas fa-gamepad"></i> Games
@@ -179,12 +350,8 @@ body::before{
     <a href="https://ethanytangcodes.github.io/ai" class="icon-btn">
       <i class="fas fa-brain"></i> AI
     </a>
-    <a href="https://ethanytangcodes.github.io/cosmos/feedback.html" class="icon-btn">
-      <i class="fas fa-comment"></i> Feedback
-    </a>
   </div>
 
-  <!-- Direct HTML download -->
   <div class="download-section">
     <a href="/cosmos/singlefilecosmos.html" download class="download-btn">
       <i class="fas fa-download"></i>
@@ -192,8 +359,107 @@ body::before{
       <span class="version-badge">v1.0</span>
     </a>
   </div>
-
 </div>
+
+<!-- Chat Button -->
+<button class="chat-button" id="chatBtn">
+  <i class="fas fa-comment-dots"></i>
+</button>
+
+<!-- Chat Widget -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-header">
+    <h3>Suggestions & Feedback</h3>
+    <p>Share your suggestions, feedback, or report any issues you've encountered.</p>
+  </div>
+  <div class="chat-body">
+    <form id="feedbackForm">
+      <input type="text" id="name" placeholder="Your Name (optional)" />
+      <input type="email" id="email" placeholder="Your Email (optional)" />
+      <textarea id="message" placeholder="Suggest a game or share feedback" required></textarea>
+      <button type="submit" id="submitBtn">Submit Feedback</button>
+      <p id="chatStatus"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+const chatBtn = document.getElementById('chatBtn');
+const chatWidget = document.getElementById('chatWidget');
+const form = document.getElementById('feedbackForm');
+const statusEl = document.getElementById('chatStatus');
+const submitBtn = document.getElementById('submitBtn');
+const webhookWorker = "https://apply.ethantytang11.workers.dev/";
+const cooldownKey = "feedbackCooldown";
+const cooldownMs = 24 * 60 * 60 * 1000;
+
+// Auto-open on page load
+setTimeout(() => {
+  chatWidget.classList.add('open');
+  chatBtn.classList.add('active');
+}, 500);
+
+// Toggle chat widget
+chatBtn.addEventListener('click', () => {
+  chatWidget.classList.toggle('open');
+  chatBtn.classList.toggle('active');
+});
+
+// Check cooldown
+const lastSubmit = localStorage.getItem(cooldownKey);
+if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
+  const timeLeft = Math.ceil((cooldownMs - (Date.now() - lastSubmit)) / (1000 * 60 * 60));
+  statusEl.textContent = `⏳ Try again in about ${timeLeft} hours.`;
+  submitBtn.disabled = true;
+}
+
+// Handle form submission
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  submitBtn.disabled = true;
+  statusEl.textContent = "Submitting...";
+
+  try {
+    const fp = await FingerprintJS.load();
+    const result = await fp.get();
+    const visitorId = result.visitorId;
+
+    const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
+
+    const payload = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value,
+      fingerprint: visitorId,
+      ip: ipData.ip,
+      location: `${ipData.city}, ${ipData.region}, ${ipData.country}`,
+      org: ipData.org,
+      time: new Date().toLocaleString(),
+      userAgent: navigator.userAgent
+    };
+
+    await fetch(webhookWorker, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    localStorage.setItem(cooldownKey, Date.now());
+    statusEl.textContent = "✅ Feedback submitted successfully!";
+    
+    // Clear form
+    setTimeout(() => {
+      form.reset();
+      statusEl.textContent = "";
+    }, 3000);
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "❌ Error submitting form. Try again later.";
+    submitBtn.disabled = false;
+  }
+});
+</script>
 
 </body>
 </html>
