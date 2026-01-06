@@ -552,6 +552,10 @@
         <span class="nav-icon"><i class="fas fa-brain"></i></span>
         <span class="nav-text">AI</span>
       </a>
+      <a class="nav-item" data-page="iframe" data-url="https://ethanytangcodes.github.io/mc">
+        <span class="nav-icon"><i class="fas fa-cube"></i></span>
+        <span class="nav-text">Minecraft</span>
+      </a>
     </div>
 
     <div class="sidebar-footer">
@@ -714,7 +718,7 @@ iframeUrls.forEach(url => {
   const iframe = document.createElement("iframe");
   iframe.src = url;
   iframe.className = "content-frame";
-  iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-modals");
+  iframe.setAttribute("sandbox", "allow-scripts allow-pointer-lock allow-same-origin allow-forms allow-popups allow-modals");
   document.querySelector(".main-content").appendChild(iframe);
   preloadedIframes[url] = iframe;
 });
