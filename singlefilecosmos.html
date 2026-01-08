@@ -770,9 +770,23 @@ if (!hasVisited) {
 }
 
 // Toggle chat widget
-chatBtn.addEventListener('click', () => {
+chatBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
   chatWidget.classList.toggle('open');
   chatBtn.classList.toggle('active');
+});
+
+// Close widget when clicking outside
+document.addEventListener('click', (e) => {
+  if (!chatWidget.contains(e.target) && !chatBtn.contains(e.target)) {
+    chatWidget.classList.remove('open');
+    chatBtn.classList.remove('active');
+  }
+});
+
+// Prevent closing when clicking inside the widget
+chatWidget.addEventListener('click', (e) => {
+  e.stopPropagation();
 });
 
 // Check cooldown
