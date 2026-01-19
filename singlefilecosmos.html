@@ -718,7 +718,7 @@ iframeUrls.forEach(url => {
   const iframe = document.createElement("iframe");
   iframe.src = url;
   iframe.className = "content-frame";
-  iframe.setAttribute("sandbox", "allow-scripts allow-pointer-lock allow-same-origin allow-forms allow-popups allow-modals");
+  iframe.setAttribute("sandbox", "allow-scripts allow-pointer-lock allow-same-origin allow-forms allow-downloads allow-popups allow-modals allow-presentation allow-orientation-lock allow-popups-to-escape-sandbox allow-top-navigation");
   document.querySelector(".main-content").appendChild(iframe);
   preloadedIframes[url] = iframe;
 });
