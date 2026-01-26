@@ -641,7 +641,7 @@
 <script>
 // ===== VERSION SYSTEM =====
 const CURRENT_VERSION = "1.2";
-const VERSION_CHECK_URL = "https://ethanytangcodes.github.io/cosmos/version.json";
+const VERSION_CHECK_URL = "https://browserupdate.ethantytang11.workers.dev/";
 
 async function checkVersion() {
   const currentVersionEl = document.getElementById("currentVersion");
@@ -651,9 +651,21 @@ async function checkVersion() {
   currentVersionEl.textContent = CURRENT_VERSION;
 
   try {
-    const response = await fetch(VERSION_CHECK_URL + "?t=" + Date.now());
+    // Send POST request with current version info
+    const response = await fetch(VERSION_CHECK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        currentVersion: CURRENT_VERSION,
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent
+      })
+    });
+
     const data = await response.json();
-    const latestVersion = data.latest;
+    const latestVersion = data.version;
 
     if (latestVersion === CURRENT_VERSION) {
       versionBadge.textContent = "UP TO DATE";
@@ -665,6 +677,7 @@ async function checkVersion() {
       updateLink.style.display = "inline-flex";
     }
   } catch (error) {
+    console.error("Version check failed:", error);
     versionBadge.textContent = "UP TO DATE";
     versionBadge.className = "version-badge up-to-date";
     updateLink.style.display = "none";
