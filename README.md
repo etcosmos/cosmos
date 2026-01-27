@@ -53,7 +53,7 @@ Check out the COSMOS site [here](https://ethanytangcodes.github.io/cosmos)!
 
 ## Getting Started
 
-1. Open the COSMOS site in a modern browser  
+1. Open the [COSMOS site](https://ethanytangcodes.github.io/cosmos) in a modern browser  
 2. Choose a module (Games, Media, Tools, etc.)  
 3. Launch instantly — no setup required  
 
