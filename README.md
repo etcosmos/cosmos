@@ -1,9 +1,9 @@
 # COSMOS
-Check out the COSMOS site [here](https://ethanytangcodes.github.io/cosmos)!
 **Cryptographic Omnivalent Strategic Module to Outmaneuver Securly**
 
 COSMOS is a modular, browser-based platform that brings together games, media, and interactive tools into a single, unified web experience. Designed to be fast, lightweight, and extensible, COSMOS acts as an all-in-one digital hub built to allow students unrestricted entertainment.
 
+Check out the COSMOS site [here](https://ethanytangcodes.github.io/cosmos)!
 ---
 
 ## Features
