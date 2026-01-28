@@ -259,6 +259,16 @@
       text-shadow: 0 0 40px rgba(157, 78, 221, 0.5);
     }
     
+    .acronym-text {
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      opacity: 1;
+      margin: 8px 0;
+      text-shadow: 0 0 15px rgba(76, 201, 240, 0.3);
+    }
+    
     .typewriter{
       font-size:28px;
       color:#4cc9f0;
@@ -266,6 +276,7 @@
       min-height:40px;
       text-align:center;
       text-shadow: 0 0 20px rgba(76, 201, 240, 0.4);
+      opacity: 1;
     }
 
     .version-container {
@@ -594,7 +605,7 @@
           </div>
           <h1 class="brand-title">Cosmos</h1>
         </div>
-        <h4 style="color: #FFFFFF;">Cryptographic Omnivalent Strategic Module to Outmaneuver S*curly</h4>
+        <h4 class="acronym-text">Cryptographic Omnivalent Strategic Module to Outmaneuver S*curly</h4>
         <div class="typewriter" id="typewriter"></div>
         
         <div class="version-container">
@@ -707,20 +718,45 @@ async function loadWeather() {
 }
 loadWeather();
 
-// ===== TYPEWRITER =====
+// ===== TYPEWRITER - IMPROVED =====
 const phrases = ["By Ethan Tang","MeGA kNiGhT","bored?","just do work by now bro","TEACHERRRRR"];
+let typewriterInterval;
+
 function startTyping() {
   const el = document.getElementById("typewriter");
-  const text = phrases[Math.floor(Math.random()*phrases.length)];
+  if (!el) return; // Safety check
+  
+  // Clear any existing interval
+  if (typewriterInterval) {
+    clearInterval(typewriterInterval);
+  }
+  
+  const text = phrases[Math.floor(Math.random() * phrases.length)];
   let i = 0;
   el.textContent = "";
-  const interval = setInterval(() => {
-    el.textContent += text[i];
-    i++;
-    if (i >= text.length) clearInterval(interval);
+  el.style.opacity = "1"; // Ensure visibility
+  
+  typewriterInterval = setInterval(() => {
+    if (i < text.length) {
+      el.textContent += text[i];
+      i++;
+    } else {
+      clearInterval(typewriterInterval);
+    }
   }, 100);
 }
-window.onload = startTyping;
+
+// Initialize typewriter when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startTyping);
+} else {
+  startTyping();
+}
+
+// Also start on window load as backup
+window.addEventListener('load', function() {
+  setTimeout(startTyping, 100);
+});
 
 // ===== NAVIGATION =====
 const navItems = document.querySelectorAll(".nav-item");
@@ -762,7 +798,11 @@ navItems.forEach(item => {
     homePage.style.display = "none";
     Object.values(preloadedIframes).forEach(i => i.style.display = "none");
 
-    if (page === "home") homePage.style.display = "flex";
+    if (page === "home") {
+      homePage.style.display = "flex";
+      // Restart typewriter when returning to home
+      setTimeout(startTyping, 100);
+    }
     if (page === "iframe") preloadedIframes[url].style.display = "block";
   });
 });
