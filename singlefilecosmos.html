@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cosmos</title>
+  <link rel="icon" type="image/png" href="https://ethanytangcodes.github.io/cosmos/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
   <style>
@@ -349,6 +350,140 @@
       box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
     }
 
+    /* Tab Cloaking Button */
+    .cloak-button{
+      position:fixed;
+      bottom:100px;
+      right:30px;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      background:white;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 4px 20px rgba(0,0,0,.3);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:all .3s ease;
+      z-index:1000;
+    }
+
+    .cloak-button i{
+      font-size:24px;
+      color:#0a0e27;
+      transition:all .3s ease;
+    }
+
+    .cloak-button.active{
+      background:linear-gradient(135deg,#9d4edd,#4cc9f0);
+    }
+
+    .cloak-button.active i{
+      color:white;
+    }
+
+    .cloak-button:hover{
+      transform:scale(1.1);
+      box-shadow:0 6px 30px rgba(157,78,221,.5);
+    }
+
+    /* Cloak Menu */
+    .cloak-menu{
+      position:fixed;
+      bottom:170px;
+      right:30px;
+      width:300px;
+      background:rgba(26,21,53,.95);
+      backdrop-filter:blur(20px);
+      border-radius:20px;
+      border:2px solid rgba(157,78,221,.4);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,.4),
+        0 0 40px rgba(157,78,221,.2);
+      z-index:999;
+      display:none;
+      animation:slideUp .3s ease;
+      padding:20px;
+    }
+
+    .cloak-menu.open{
+      display:block;
+    }
+
+    .cloak-menu h3{
+      font-size:18px;
+      background:linear-gradient(90deg,#9d4edd,#4cc9f0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:15px;
+    }
+
+    .cloak-preset{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      margin:8px 0;
+      background:rgba(10,14,39,.6);
+      border-radius:10px;
+      cursor:pointer;
+      transition:all .3s ease;
+      border:2px solid transparent;
+    }
+
+    .cloak-preset:hover{
+      background:rgba(157,78,221,.2);
+      border-color:rgba(157,78,221,.4);
+      box-shadow:0 0 15px rgba(157,78,221,.3);
+    }
+
+    .cloak-preset.active{
+      background:rgba(157,78,221,.3);
+      border-color:#9d4edd;
+      box-shadow:0 0 20px rgba(157,78,221,.4);
+    }
+
+    .cloak-preset img{
+      width:24px;
+      height:24px;
+      object-fit:contain;
+    }
+
+    .cloak-preset-info{
+      flex:1;
+    }
+
+    .cloak-preset-title{
+      font-size:14px;
+      font-weight:600;
+      color:white;
+      margin-bottom:2px;
+    }
+
+    .cloak-preset-url{
+      font-size:11px;
+      color:#b8b8c8;
+    }
+
+    .reset-cloak{
+      width:100%;
+      padding:12px;
+      margin-top:12px;
+      background:rgba(255,107,107,.2);
+      border:2px solid rgba(255,107,107,.4);
+      color:#ff6b6b;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .3s ease;
+    }
+
+    .reset-cloak:hover{
+      background:rgba(255,107,107,.3);
+      box-shadow:0 0 20px rgba(255,107,107,.4);
+    }
+
     /* Chat Button */
     .chat-button{
       position:fixed;
@@ -519,6 +654,23 @@
       box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
     }
 
+    /* Privacy Overlay for Alt-Tab */
+    .privacy-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 10000;
+      display: none;
+      pointer-events: none;
+    }
+
+    .privacy-overlay.active {
+      display: block;
+    }
+
     @media (max-width:768px){
       .chat-widget{
         width:calc(100vw - 40px);
@@ -528,6 +680,15 @@
       .chat-button{
         right:20px;
         bottom:20px;
+      }
+      .cloak-button{
+        right:20px;
+        bottom:90px;
+      }
+      .cloak-menu{
+        right:20px;
+        bottom:160px;
+        width:calc(100vw - 40px);
       }
     }
   </style>
@@ -611,7 +772,7 @@
         <div class="version-container">
           <div class="version-info">
             <i class="fas fa-code-branch" style="color: #9d4edd;"></i>
-            <span>Version <span id="currentVersion">1.2</span></span>
+            <span>Version <span id="currentVersion">1.3</span></span>
             <span class="version-badge" id="versionBadge">Checking...</span>
           </div>
           <a href="https://ethanytangcodes.github.io/cosmos" class="update-link" id="updateLink" style="display: none;">
@@ -622,6 +783,74 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Privacy Overlay -->
+<div class="privacy-overlay" id="privacyOverlay"></div>
+
+<!-- Tab Cloak Button -->
+<button class="cloak-button" id="cloakBtn">
+  <i class="fas fa-mask"></i>
+</button>
+
+<!-- Cloak Menu -->
+<div class="cloak-menu" id="cloakMenu">
+  <h3><i class="fas fa-mask"></i> Tab Cloaking</h3>
+  
+  <div class="cloak-preset" data-title="My Drive - Google Drive" data-icon="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">
+    <img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" alt="Google Drive">
+    <div class="cloak-preset-info">
+      <div class="cloak-preset-title">Google Drive</div>
+      <div class="cloak-preset-url">drive.google.com</div>
+    </div>
+  </div>
+
+  <div class="cloak-preset" data-title="Gmail" data-icon="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico">
+    <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="Gmail">
+    <div class="cloak-preset-info">
+      <div class="cloak-preset-title">Gmail</div>
+      <div class="cloak-preset-url">mail.google.com</div>
+    </div>
+  </div>
+
+  <div class="cloak-preset" data-title="Clever | Portal" data-icon="https://clever.com/favicon.ico">
+    <img src="https://clever.com/favicon.ico" alt="Clever">
+    <div class="cloak-preset-info">
+      <div class="cloak-preset-title">Clever</div>
+      <div class="cloak-preset-url">clever.com</div>
+    </div>
+  </div>
+
+  <div class="cloak-preset" data-title="Home" data-icon="https://ssl.gstatic.com/classroom/favicon.png">
+    <img src="https://ssl.gstatic.com/classroom/favicon.png" alt="Google Classroom">
+    <div class="cloak-preset-info">
+      <div class="cloak-preset-title">Google Classroom</div>
+      <div class="cloak-preset-url">classroom.google.com</div>
+    </div>
+  </div>
+
+  <div class="cloak-preset" data-title="Google Docs" data-icon="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
+    <img src="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" alt="Google Docs">
+    <div class="cloak-preset-info">
+      <div class="cloak-preset-title">Google Docs</div>
+      <div class="cloak-preset-url">docs.google.com</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(157, 78, 221, 0.3);">
+    <h3 style="font-size: 16px; margin-bottom: 12px;"><i class="fas fa-edit"></i> Custom Cloak</h3>
+    <input type="text" id="customTitle" placeholder="Tab Title (e.g., Google Drive)" 
+           style="width: 100%; padding: 10px; margin-bottom: 8px; border-radius: 8px; border: 2px solid rgba(157, 78, 221, 0.3); background: rgba(10, 14, 39, 0.6); color: white; font-size: 13px;">
+    <input type="url" id="customIcon" placeholder="Favicon URL (e.g., https://...favicon.ico)" 
+           style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid rgba(157, 78, 221, 0.3); background: rgba(10, 14, 39, 0.6); color: white; font-size: 13px;">
+    <button id="applyCustomCloak" style="width: 100%; padding: 10px; background: linear-gradient(135deg, #9d4edd, #4cc9f0); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px;">
+      <i class="fas fa-check"></i> Apply Custom Cloak
+    </button>
+  </div>
+
+  <button class="reset-cloak" id="resetCloak">
+    <i class="fas fa-undo"></i> Reset to Default
+  </button>
 </div>
 
 <!-- Chat Button -->
@@ -647,8 +876,145 @@
 </div>
 
 <script>
+// ===== TAB CLOAKING SYSTEM =====
+const cloakPresets = document.querySelectorAll('.cloak-preset');
+const cloakBtn = document.getElementById('cloakBtn');
+const cloakMenu = document.getElementById('cloakMenu');
+const resetCloakBtn = document.getElementById('resetCloak');
+
+const originalTitle = document.title;
+const originalIcon = document.querySelector('link[rel="icon"]').href;
+
+// Load saved cloak on page load
+const savedCloak = localStorage.getItem('tabCloak');
+if (savedCloak) {
+  const cloakData = JSON.parse(savedCloak);
+  applyCloak(cloakData.title, cloakData.icon);
+  // Mark the active preset
+  cloakPresets.forEach(preset => {
+    if (preset.dataset.title === cloakData.title) {
+      preset.classList.add('active');
+    }
+  });
+}
+
+function applyCloak(title, icon) {
+  document.title = title;
+  const link = document.querySelector('link[rel="icon"]') || document.createElement('link');
+  link.rel = 'icon';
+  link.type = 'image/png';
+  link.href = icon;
+  if (!document.querySelector('link[rel="icon"]')) {
+    document.head.appendChild(link);
+  }
+}
+
+// Toggle cloak menu
+cloakBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cloakMenu.classList.toggle('open');
+  cloakBtn.classList.toggle('active');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!cloakMenu.contains(e.target) && !cloakBtn.contains(e.target)) {
+    cloakMenu.classList.remove('open');
+    cloakBtn.classList.remove('active');
+  }
+});
+
+cloakMenu.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+// Apply cloak preset
+cloakPresets.forEach(preset => {
+  preset.addEventListener('click', () => {
+    const title = preset.dataset.title;
+    const icon = preset.dataset.icon;
+    
+    applyCloak(title, icon);
+    localStorage.setItem('tabCloak', JSON.stringify({ title, icon }));
+    
+    // Update active state
+    cloakPresets.forEach(p => p.classList.remove('active'));
+    preset.classList.add('active');
+    
+    // Close menu
+    cloakMenu.classList.remove('open');
+    cloakBtn.classList.remove('active');
+  });
+});
+
+// Reset cloak
+resetCloakBtn.addEventListener('click', () => {
+  applyCloak(originalTitle, originalIcon);
+  localStorage.removeItem('tabCloak');
+  cloakPresets.forEach(p => p.classList.remove('active'));
+  cloakMenu.classList.remove('open');
+  cloakBtn.classList.remove('active');
+});
+
+// Custom cloak
+const customTitleInput = document.getElementById('customTitle');
+const customIconInput = document.getElementById('customIcon');
+const applyCustomCloakBtn = document.getElementById('applyCustomCloak');
+
+applyCustomCloakBtn.addEventListener('click', () => {
+  const title = customTitleInput.value.trim();
+  const icon = customIconInput.value.trim();
+  
+  if (!title) {
+    alert('Please enter a tab title!');
+    return;
+  }
+  
+  if (!icon) {
+    alert('Please enter a favicon URL!');
+    return;
+  }
+  
+  applyCloak(title, icon);
+  localStorage.setItem('tabCloak', JSON.stringify({ title, icon }));
+  
+  // Clear active presets since this is custom
+  cloakPresets.forEach(p => p.classList.remove('active'));
+  
+  // Clear inputs
+  customTitleInput.value = '';
+  customIconInput.value = '';
+  
+  // Close menu
+  cloakMenu.classList.remove('open');
+  cloakBtn.classList.remove('active');
+});
+
+// ===== PRIVACY OVERLAY (BLACK ON ALT-TAB) =====
+const privacyOverlay = document.getElementById('privacyOverlay');
+
+// Detect when user leaves the page (Alt-Tab, window switch, etc.)
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    // User switched away - show black overlay
+    privacyOverlay.classList.add('active');
+  } else {
+    // User came back - hide overlay
+    privacyOverlay.classList.remove('active');
+  }
+});
+
+// Also handle blur/focus events as backup
+window.addEventListener('blur', () => {
+  privacyOverlay.classList.add('active');
+});
+
+window.addEventListener('focus', () => {
+  privacyOverlay.classList.remove('active');
+});
+
 // ===== VERSION SYSTEM =====
-const CURRENT_VERSION = "1.2";
+const CURRENT_VERSION = "1.3";
 const VERSION_CHECK_URL = "https://browserupdate.ethantytang11.workers.dev/";
 
 async function checkVersion() {
@@ -659,7 +1025,6 @@ async function checkVersion() {
   currentVersionEl.textContent = CURRENT_VERSION;
 
   try {
-    // Send POST request with current version info
     const response = await fetch(VERSION_CHECK_URL, {
       method: "POST",
       headers: {
@@ -719,14 +1084,13 @@ async function loadWeather() {
 loadWeather();
 
 // ===== TYPEWRITER - IMPROVED =====
-const phrases = ["By Ethan Tang","MeGA kNiGhT","bored?","just do work by now bro","TEACHERRRRR"];
+const phrases = ["By Ethan Tang","MeGA kNiGhT","bored?","just do work by now bro","TEACHERRRRR","Now with Tab Cloaking!","Custom Cloaks Available!","Privacy Mode Active"];
 let typewriterInterval;
 
 function startTyping() {
   const el = document.getElementById("typewriter");
-  if (!el) return; // Safety check
+  if (!el) return;
   
-  // Clear any existing interval
   if (typewriterInterval) {
     clearInterval(typewriterInterval);
   }
@@ -734,7 +1098,7 @@ function startTyping() {
   const text = phrases[Math.floor(Math.random() * phrases.length)];
   let i = 0;
   el.textContent = "";
-  el.style.opacity = "1"; // Ensure visibility
+  el.style.opacity = "1";
   
   typewriterInterval = setInterval(() => {
     if (i < text.length) {
@@ -746,14 +1110,12 @@ function startTyping() {
   }, 100);
 }
 
-// Initialize typewriter when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', startTyping);
 } else {
   startTyping();
 }
 
-// Also start on window load as backup
 window.addEventListener('load', function() {
   setTimeout(startTyping, 100);
 });
@@ -800,7 +1162,6 @@ navItems.forEach(item => {
 
     if (page === "home") {
       homePage.style.display = "flex";
-      // Restart typewriter when returning to home
       setTimeout(startTyping, 100);
     }
     if (page === "iframe") preloadedIframes[url].style.display = "block";
@@ -842,7 +1203,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Prevent closing when clicking inside the widget
 chatWidget.addEventListener('click', (e) => {
   e.stopPropagation();
 });
@@ -890,7 +1250,6 @@ form.addEventListener('submit', async (e) => {
     localStorage.setItem(cooldownKey, Date.now());
     statusEl.textContent = "✅ Feedback submitted successfully!";
     
-    // Clear form
     setTimeout(() => {
       form.reset();
       statusEl.textContent = "";
