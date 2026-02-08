@@ -572,7 +572,7 @@
     .chat-header p{
       font-size:13px;
       color:#b8b8c8;
-      line-height:1.3;
+      line-height:1.4;
     }
 
     .chat-body{
@@ -772,7 +772,7 @@
         <div class="version-container">
           <div class="version-info">
             <i class="fas fa-code-branch" style="color: #9d4edd;"></i>
-            <span>Version <span id="currentVersion">1.3</span></span>
+            <span>Version <span id="currentVersion">1.4</span></span>
             <span class="version-badge" id="versionBadge">Checking...</span>
           </div>
           <a href="https://ethanytangcodes.github.io/cosmos" class="update-link" id="updateLink" style="display: none;">
@@ -990,69 +990,31 @@ applyCustomCloakBtn.addEventListener('click', () => {
   cloakBtn.classList.remove('active');
 });
 
-// ===== PRIVACY OVERLAY (STUDENTSQUARE ON ALT-TAB) =====
+// ===== PRIVACY OVERLAY (BLACK SCREEN ON ALT-TAB) =====
 const privacyOverlay = document.getElementById('privacyOverlay');
-
-// StudentSquare cloak configuration
-const studentSquareCloak = {
-  title: 'Miller Middle School',
-  icon: 'https://ethanytangcodes.github.io/cosmos/logo.png' // You can replace with actual StudentSquare favicon if available
-};
-
-// Store original cloak to restore later
-let originalCloak = null;
 
 // Detect when user leaves the page (Alt-Tab, window switch, etc.)
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
-    // User switched away - show StudentSquare overlay and change cloak
+    // User switched away - show black overlay
     privacyOverlay.classList.add('active');
-    
-    // Save current cloak
-    originalCloak = {
-      title: document.title,
-      icon: document.querySelector('link[rel="icon"]').href
-    };
-    
-    // Apply StudentSquare cloak
-    applyCloak(studentSquareCloak.title, studentSquareCloak.icon);
   } else {
-    // User came back - hide overlay and restore original cloak
+    // User came back - hide overlay
     privacyOverlay.classList.remove('active');
-    
-    // Restore original cloak if it was saved
-    if (originalCloak) {
-      applyCloak(originalCloak.title, originalCloak.icon);
-      originalCloak = null;
-    }
   }
 });
 
 // Also handle blur/focus events as backup
 window.addEventListener('blur', () => {
   privacyOverlay.classList.add('active');
-  
-  if (!originalCloak) {
-    originalCloak = {
-      title: document.title,
-      icon: document.querySelector('link[rel="icon"]').href
-    };
-  }
-  
-  applyCloak(studentSquareCloak.title, studentSquareCloak.icon);
 });
 
 window.addEventListener('focus', () => {
   privacyOverlay.classList.remove('active');
-  
-  if (originalCloak) {
-    applyCloak(originalCloak.title, originalCloak.icon);
-    originalCloak = null;
-  }
 });
 
 // ===== VERSION SYSTEM =====
-const CURRENT_VERSION = "1.3";
+const CURRENT_VERSION = "1.4";
 const VERSION_CHECK_URL = "https://browserupdate.ethantytang11.workers.dev/";
 
 async function checkVersion() {
