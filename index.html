@@ -485,6 +485,9 @@ form.addEventListener('submit', async (e) => {
     submitBtn.disabled = false;
   }
 });
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/cosmos/sw.js');
+}
 </script>
 
 </body>
