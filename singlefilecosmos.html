@@ -715,6 +715,10 @@
         <span class="nav-icon"><i class="fas fa-music"></i></span>
         <span class="nav-text">Music Player</span>
       </a>
+      <a class="nav-item" data-page="iframe" data-url="https://etcosmos.github.io/scramjet">
+        <span class="nav-icon"><i class="fas fa-globe"></i></span>
+        <span class="nav-text">Proxy (laggy)</span>
+      </a>
     </div>
 
     <div class="sidebar-footer">
@@ -755,7 +759,7 @@
         <div class="version-container">
           <div class="version-info">
             <i class="fas fa-code-branch" style="color: #DE3163;"></i>
-            <span>Version <span id="currentVersion">1.5</span></span>
+            <span>Version <span id="currentVersion">v1.6</span></span>
             <span class="version-badge" id="versionBadge">Checking...</span>
           </div>
           <a href="https://etcosmos.github.io/cosmos" class="update-link" id="updateLink" style="display: none;">
@@ -971,7 +975,7 @@ applyCustomCloakBtn.addEventListener('click', () => {
 });
 
 // ===== VERSION SYSTEM =====
-const CURRENT_VERSION = "1.5";
+const CURRENT_VERSION = "1.6";
 const VERSION_CHECK_URL = "https://browserupdate.ethantytang11.workers.dev/";
 
 async function checkVersion() {
@@ -1041,7 +1045,7 @@ async function loadWeather() {
 loadWeather();
 
 // ===== TYPEWRITER - IMPROVED =====
-const phrases = ["By Ethan Tang","MeGA kNiGhT","bored?","just do work by now bro","TEACHERRRRR","now with tab cloaking"];
+const phrases = ["By Ethan Tang","now with tab cloaking","global block list wont set me back"];
 let typewriterInterval;
 
 function startTyping() {
