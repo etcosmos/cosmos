@@ -61,6 +61,191 @@
       to { background-position: -200% -200%; }
     }
 
+    /* ===== FORCED UPDATE OVERLAY ===== */
+    #updateOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(10, 4, 8, 0.97);
+      backdrop-filter: blur(20px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 28px;
+      animation: fadeInOverlay 0.5s ease;
+    }
+
+    #updateOverlay.visible {
+      display: flex;
+    }
+
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .overlay-card {
+      background: rgba(45, 10, 26, 0.95);
+      border: 2px solid rgba(222, 49, 99, 0.6);
+      border-radius: 24px;
+      padding: 48px 52px;
+      max-width: 480px;
+      width: calc(100vw - 48px);
+      text-align: center;
+      box-shadow:
+        0 0 60px rgba(222, 49, 99, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+      animation: cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes cardPop {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .overlay-icon-wrap {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 24px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #DE3163, #F88379);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px rgba(222, 49, 99, 0.7);
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(222, 49, 99, 0.7); }
+      50% { box-shadow: 0 0 70px rgba(222, 49, 99, 1); }
+    }
+
+    .overlay-icon-wrap i {
+      font-size: 40px;
+      color: white;
+    }
+
+    .overlay-title {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #DE3163, #F88379);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .overlay-subtitle {
+      font-size: 15px;
+      color: #b8b8c8;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .overlay-version-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 20px 0 28px;
+      flex-wrap: wrap;
+    }
+
+    .overlay-version-chip {
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-old {
+      background: rgba(255, 107, 107, 0.15);
+      border: 2px solid rgba(255, 107, 107, 0.4);
+      color: #ff6b6b;
+    }
+
+    .chip-new {
+      background: rgba(222, 49, 99, 0.2);
+      border: 2px solid rgba(222, 49, 99, 0.5);
+      color: #F88379;
+    }
+
+    .overlay-update-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #DE3163, #F88379);
+      color: white;
+      text-decoration: none;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 30px rgba(222, 49, 99, 0.5);
+      letter-spacing: 0.3px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .overlay-update-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(222, 49, 99, 0.7);
+    }
+
+    .overlay-update-btn:active {
+      transform: translateY(0);
+    }
+
+    .overlay-lock-note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: rgba(184, 184, 200, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Checking state */
+    #updateOverlay.checking .overlay-title { display: none; }
+    #updateOverlay.checking .overlay-subtitle { display: none; }
+    #updateOverlay.checking .overlay-version-row { display: none; }
+    #updateOverlay.checking .overlay-update-btn { display: none; }
+    #updateOverlay.checking .overlay-lock-note { display: none; }
+    #updateOverlay.checking .overlay-check-msg { display: flex !important; }
+
+    .overlay-check-msg {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      color: #b8b8c8;
+      font-size: 15px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(222, 49, 99, 0.3);
+      border-top-color: #DE3163;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== END OVERLAY STYLES ===== */
+
     .container{display:flex;height:100vh;position:relative;z-index:1;}
     
     .sidebar{
@@ -673,10 +858,56 @@
         bottom:160px;
         width:calc(100vw - 40px);
       }
+      .overlay-card {
+        padding: 36px 28px;
+      }
+      .brand-title { font-size: 60px; }
     }
   </style>
 </head>
 <body>
+
+<!-- ===== FORCED UPDATE OVERLAY ===== -->
+<div id="updateOverlay" class="checking">
+  <div class="overlay-card">
+    <!-- Checking spinner (shown while fetching version) -->
+    <div class="overlay-check-msg">
+      <div class="spinner"></div>
+      <span>Checking version...</span>
+    </div>
+
+    <!-- Outdated content (shown when update required) -->
+    <div class="overlay-icon-wrap">
+      <i class="fas fa-exclamation-triangle"></i>
+    </div>
+    <div class="overlay-title">Update Required</div>
+    <p class="overlay-subtitle">
+      You're running an outdated version of Cosmos. Please download the latest version to continue.
+    </p>
+
+    <div class="overlay-version-row">
+      <div class="overlay-version-chip chip-old">
+        <i class="fas fa-times-circle"></i>
+        <span>Your version: <strong id="overlayCurrentVer">—</strong></span>
+      </div>
+      <div class="overlay-version-chip chip-new">
+        <i class="fas fa-arrow-up"></i>
+        <span>Latest: <strong id="overlayLatestVer">—</strong></span>
+      </div>
+    </div>
+
+    <a href="https://etcosmos.github.io/cosmos" class="overlay-update-btn" id="overlayUpdateBtn" target="_blank">
+      <i class="fas fa-download"></i>
+      Download Latest Version
+    </a>
+
+    <p class="overlay-lock-note">
+      <i class="fas fa-lock"></i>
+      Cosmos is locked until you update
+    </p>
+  </div>
+</div>
+<!-- ===== END OVERLAY ===== -->
 
 <div class="container">
   <div class="sidebar">
@@ -874,7 +1105,6 @@ const savedCloak = localStorage.getItem('tabCloak');
 if (savedCloak) {
   const cloakData = JSON.parse(savedCloak);
   applyCloak(cloakData.title, cloakData.icon);
-  // Mark the active preset
   cloakPresets.forEach(preset => {
     if (preset.dataset.title === cloakData.title) {
       preset.classList.add('active');
@@ -893,14 +1123,12 @@ function applyCloak(title, icon) {
   }
 }
 
-// Toggle cloak menu
 cloakBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   cloakMenu.classList.toggle('open');
   cloakBtn.classList.toggle('active');
 });
 
-// Close menu when clicking outside
 document.addEventListener('click', (e) => {
   if (!cloakMenu.contains(e.target) && !cloakBtn.contains(e.target)) {
     cloakMenu.classList.remove('open');
@@ -912,26 +1140,19 @@ cloakMenu.addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
-// Apply cloak preset
 cloakPresets.forEach(preset => {
   preset.addEventListener('click', () => {
     const title = preset.dataset.title;
     const icon = preset.dataset.icon;
-    
     applyCloak(title, icon);
     localStorage.setItem('tabCloak', JSON.stringify({ title, icon }));
-    
-    // Update active state
     cloakPresets.forEach(p => p.classList.remove('active'));
     preset.classList.add('active');
-    
-    // Close menu
     cloakMenu.classList.remove('open');
     cloakBtn.classList.remove('active');
   });
 });
 
-// Reset cloak
 resetCloakBtn.addEventListener('click', () => {
   applyCloak(originalTitle, originalIcon);
   localStorage.removeItem('tabCloak');
@@ -940,7 +1161,6 @@ resetCloakBtn.addEventListener('click', () => {
   cloakBtn.classList.remove('active');
 });
 
-// Custom cloak
 const customTitleInput = document.getElementById('customTitle');
 const customIconInput = document.getElementById('customIcon');
 const applyCustomCloakBtn = document.getElementById('applyCustomCloak');
@@ -948,35 +1168,39 @@ const applyCustomCloakBtn = document.getElementById('applyCustomCloak');
 applyCustomCloakBtn.addEventListener('click', () => {
   const title = customTitleInput.value.trim();
   const icon = customIconInput.value.trim();
-  
-  if (!title) {
-    alert('Please enter a tab title!');
-    return;
-  }
-  
-  if (!icon) {
-    alert('Please enter a favicon URL!');
-    return;
-  }
-  
+  if (!title) { alert('Please enter a tab title!'); return; }
+  if (!icon) { alert('Please enter a favicon URL!'); return; }
   applyCloak(title, icon);
   localStorage.setItem('tabCloak', JSON.stringify({ title, icon }));
-  
-  // Clear active presets since this is custom
   cloakPresets.forEach(p => p.classList.remove('active'));
-  
-  // Clear inputs
   customTitleInput.value = '';
   customIconInput.value = '';
-  
-  // Close menu
   cloakMenu.classList.remove('open');
   cloakBtn.classList.remove('active');
 });
 
-// ===== VERSION SYSTEM =====
+// ===== VERSION SYSTEM (with forced gate) =====
 const CURRENT_VERSION = "1.6";
 const VERSION_CHECK_URL = "https://browserupdate.ethantytang11.workers.dev/";
+
+const overlay = document.getElementById('updateOverlay');
+
+function showUpdateGate(latestVersion) {
+  document.getElementById('overlayCurrentVer').textContent = CURRENT_VERSION;
+  document.getElementById('overlayLatestVer').textContent = latestVersion;
+  overlay.classList.remove('checking');
+  overlay.classList.add('visible');
+
+  // Trap keyboard — prevent any tab/key navigation out
+  document.addEventListener('keydown', trapKeys, true);
+}
+
+function trapKeys(e) {
+  // Allow only Tab to the update button (accessibility), block everything else that might dismiss overlay
+  const updateBtn = document.getElementById('overlayUpdateBtn');
+  const focusable = [updateBtn];
+  if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); }
+}
 
 async function checkVersion() {
   const currentVersionEl = document.getElementById("currentVersion");
@@ -985,12 +1209,13 @@ async function checkVersion() {
 
   currentVersionEl.textContent = CURRENT_VERSION;
 
+  // Show overlay in "checking" state while we fetch
+  overlay.classList.add('visible', 'checking');
+
   try {
     const response = await fetch(VERSION_CHECK_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         currentVersion: CURRENT_VERSION,
         timestamp: Date.now(),
@@ -1002,16 +1227,23 @@ async function checkVersion() {
     const latestVersion = data.version;
 
     if (latestVersion === CURRENT_VERSION) {
+      // Up to date — dismiss overlay, update badge
+      overlay.classList.remove('visible', 'checking');
       versionBadge.textContent = "UP TO DATE";
       versionBadge.className = "version-badge up-to-date";
       updateLink.style.display = "none";
     } else {
+      // Outdated — keep overlay visible with update gate
       versionBadge.textContent = "UPDATE AVAILABLE";
       versionBadge.className = "version-badge outdated";
       updateLink.style.display = "inline-flex";
+      showUpdateGate(latestVersion);
     }
   } catch (error) {
+    // If version check fails (network error etc.), assume up to date
+    // so users aren't locked out by a failed request
     console.error("Version check failed:", error);
+    overlay.classList.remove('visible', 'checking');
     versionBadge.textContent = "UP TO DATE";
     versionBadge.className = "version-badge up-to-date";
     updateLink.style.display = "none";
@@ -1044,30 +1276,21 @@ async function loadWeather() {
 }
 loadWeather();
 
-// ===== TYPEWRITER - IMPROVED =====
+// ===== TYPEWRITER =====
 const phrases = ["By Ethan Tang","now with tab cloaking","global block list wont set me back"];
 let typewriterInterval;
 
 function startTyping() {
   const el = document.getElementById("typewriter");
   if (!el) return;
-  
-  if (typewriterInterval) {
-    clearInterval(typewriterInterval);
-  }
-  
+  if (typewriterInterval) clearInterval(typewriterInterval);
   const text = phrases[Math.floor(Math.random() * phrases.length)];
   let i = 0;
   el.textContent = "";
   el.style.opacity = "1";
-  
   typewriterInterval = setInterval(() => {
-    if (i < text.length) {
-      el.textContent += text[i];
-      i++;
-    } else {
-      clearInterval(typewriterInterval);
-    }
+    if (i < text.length) { el.textContent += text[i]; i++; }
+    else clearInterval(typewriterInterval);
   }, 100);
 }
 
@@ -1076,10 +1299,7 @@ if (document.readyState === 'loading') {
 } else {
   startTyping();
 }
-
-window.addEventListener('load', function() {
-  setTimeout(startTyping, 100);
-});
+window.addEventListener('load', function() { setTimeout(startTyping, 100); });
 
 // ===== NAVIGATION =====
 const navItems = document.querySelectorAll(".nav-item");
@@ -1113,14 +1333,11 @@ navItems.forEach(item => {
     e.preventDefault();
     const page = item.dataset.page;
     const url = item.dataset.url;
-
     navItems.forEach(n => n.classList.remove("active"));
     item.classList.add("active");
     moveIndicator(item);
-
     homePage.style.display = "none";
     Object.values(preloadedIframes).forEach(i => i.style.display = "none");
-
     if (page === "home") {
       homePage.style.display = "flex";
       setTimeout(startTyping, 100);
@@ -1139,7 +1356,6 @@ const webhookWorker = "https://apply.ethantytang11.workers.dev/";
 const cooldownKey = "feedbackCooldown";
 const cooldownMs = 24 * 60 * 60 * 1000;
 
-// Auto-open only on first visit
 const hasVisited = localStorage.getItem('hasVisitedCosmos');
 if (!hasVisited) {
   setTimeout(() => {
@@ -1149,14 +1365,12 @@ if (!hasVisited) {
   localStorage.setItem('hasVisitedCosmos', 'true');
 }
 
-// Toggle chat widget
 chatBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   chatWidget.classList.toggle('open');
   chatBtn.classList.toggle('active');
 });
 
-// Close widget when clicking outside
 document.addEventListener('click', (e) => {
   if (!chatWidget.contains(e.target) && !chatBtn.contains(e.target)) {
     chatWidget.classList.remove('open');
@@ -1164,11 +1378,8 @@ document.addEventListener('click', (e) => {
   }
 });
 
-chatWidget.addEventListener('click', (e) => {
-  e.stopPropagation();
-});
+chatWidget.addEventListener('click', (e) => { e.stopPropagation(); });
 
-// Check cooldown
 const lastSubmit = localStorage.getItem(cooldownKey);
 if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
   const timeLeft = Math.ceil((cooldownMs - (Date.now() - lastSubmit)) / (1000 * 60 * 60));
@@ -1176,20 +1387,15 @@ if (lastSubmit && Date.now() - lastSubmit < cooldownMs) {
   submitBtn.disabled = true;
 }
 
-// Handle form submission
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  
   submitBtn.disabled = true;
   statusEl.textContent = "Submitting...";
-
   try {
     const fp = await FingerprintJS.load();
     const result = await fp.get();
     const visitorId = result.visitorId;
-
     const ipData = await fetch("https://ipinfo.io/json?token=d3c139f7603b13").then(r => r.json());
-
     const payload = {
       name: document.getElementById("name").value,
       email: document.getElementById("email").value,
@@ -1201,20 +1407,14 @@ form.addEventListener('submit', async (e) => {
       time: new Date().toLocaleString(),
       userAgent: navigator.userAgent
     };
-
     await fetch(webhookWorker, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-
     localStorage.setItem(cooldownKey, Date.now());
     statusEl.textContent = "✅ Feedback submitted successfully!";
-    
-    setTimeout(() => {
-      form.reset();
-      statusEl.textContent = "";
-    }, 3000);
+    setTimeout(() => { form.reset(); statusEl.textContent = ""; }, 3000);
   } catch (err) {
     console.error(err);
     statusEl.textContent = "❌ Error submitting form. Try again later.";
